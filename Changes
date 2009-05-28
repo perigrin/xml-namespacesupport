@@ -1,6 +1,9 @@
 
 Revision history for XML::NamespaceSupport:
 
+1.09_90 2009-05-28
+    - Re-bundle with modern testing and Module::Install (perigrin)
+
 1.09  fri 20050513 00:50
     - add support (on by default) for the Namespaces in XML 1.1 spec.
 
