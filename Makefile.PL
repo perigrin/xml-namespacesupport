@@ -1,8 +1,13 @@
-use ExtUtils::MakeMaker;
-# See lib/ExtUtils/MakeMaker.pm for details of how to influence
-# the contents of the Makefile that is written.
-WriteMakefile(
-    'NAME'          => 'XML::NamespaceSupport',
-    'VERSION_FROM'  => 'NamespaceSupport.pm',
-    'PREREQ_PM'     => {},
-);
+# Load the Module::Install bundled in ./inc/
+use inc::Module::Install;
+
+# Define metadata
+name 'XML-NamespaceSupport';
+all_from 'lib/XML/NamespaceSupport.pm';
+
+build_requires 'Test::More' => '0.47';
+
+auto_set_repository;
+auto_manifest;
+auto_install;
+WriteAll;
