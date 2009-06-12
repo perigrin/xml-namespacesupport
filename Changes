@@ -1,6 +1,9 @@
 
 Revision history for XML::NamespaceSupport:
 
+1.10  2009-06-12
+    - Release real version since CPAN testers gave us a pass (perigrin)
+
 1.09_90 2009-05-28
     - Re-bundle with modern testing and Module::Install (perigrin)
 
