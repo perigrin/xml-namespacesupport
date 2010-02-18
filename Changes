@@ -1,6 +1,9 @@
 
 Revision history for XML::NamespaceSupport:
 
+1.10  thu 20100218 19:54
+    - update Module::Install bundle and remove auto_install from Makefile.PL
+
 1.09  fri 20050513 00:50
     - add support (on by default) for the Namespaces in XML 1.1 spec.
 

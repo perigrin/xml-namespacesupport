@@ -9,5 +9,4 @@ build_requires 'Test::More' => '0.47';
 
 auto_set_repository;
 auto_manifest;
-auto_install;
 WriteAll;
