@@ -1,5 +1,7 @@
-
 Revision history for XML::NamespaceSupport:
+
+1.11  tues20100316 15:17
+	- re-generate the META.yml and remove the stale one from git
 
 1.10  thu 20100218 19:54
     - update Module::Install bundle and remove auto_install from Makefile.PL
