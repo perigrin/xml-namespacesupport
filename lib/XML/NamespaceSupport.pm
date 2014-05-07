@@ -1,10 +1,15 @@
+package XML::NamespaceSupport;
+use strict;
+
+# VERSION
+
+# ABSTRACT: A simple generic namespace processor
+
 ###
 # XML::NamespaceSupport - a simple generic namespace processor
 # Robin Berjon <robin@knowscape.com>
 ###
 
-package XML::NamespaceSupport;
-use strict;
 use constant FATALS         => 0; # root object
 use constant NSMAP          => 1;
 use constant UNKNOWN_PREF   => 2;
@@ -14,14 +19,12 @@ use constant DEFAULT        => 0; # maps
 use constant PREFIX_MAP     => 1;
 use constant DECLARATIONS   => 2;
 
-use vars qw($VERSION $NS_XMLNS $NS_XML);
-$VERSION    = '1.10';
+use vars qw($NS_XMLNS $NS_XML);
 $NS_XMLNS   = 'http://www.w3.org/2000/xmlns/';
 $NS_XML     = 'http://www.w3.org/XML/1998/namespace';
 
 
 # add the ns stuff that baud wants based on Java's xml-writer
-
 
 #-------------------------------------------------------------------#
 # constructor
@@ -46,7 +49,6 @@ sub new {
     $self->[XMLNS_11] = $options->{xmlns_11} if defined $options->{xmlns_11};
     return bless $self, $class;
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # reset() - return to the original state (for reuse)
@@ -55,7 +57,6 @@ sub reset {
     my $self = shift;
     $#{$self->[NSMAP]} = 0;
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # push_context() - add a new empty context to the stack
@@ -68,7 +69,6 @@ sub push_context {
                              [],
                             ];
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # pop_context() - remove the topmost context from the stack
@@ -78,7 +78,6 @@ sub pop_context {
     die 'Trying to pop context without push context' unless @{$self->[NSMAP]} > 1;
     pop @{$self->[NSMAP]};
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # declare_prefix() - declare a prefix in the current scope
@@ -127,7 +126,6 @@ sub declare_prefix {
     push @{$self->[NSMAP]->[-1]->[DECLARATIONS]}, $prefix;
     return 1;
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # declare_prefixes() - declare several prefixes in the current scope
@@ -139,7 +137,6 @@ sub declare_prefixes {
         $self->declare_prefix($k,$v);
     }
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # undeclare_prefix
@@ -158,7 +155,6 @@ sub undeclare_prefix {
     @{$self->[NSMAP]->[-1]->[DECLARATIONS]} = grep { $_ ne $prefix } @{$self->[NSMAP]->[-1]->[DECLARATIONS]};
     delete $self->[NSMAP]->[-1]->[PREFIX_MAP]->{$prefix};
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # get_prefix() - get a (random) prefix for a given URI
@@ -175,7 +171,6 @@ sub get_prefix {
     }
     return $pref;
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # get_prefixes() - get all the prefixes for a given URI
@@ -187,7 +182,6 @@ sub get_prefixes {
     return keys %{$self->[NSMAP]->[-1]->[PREFIX_MAP]} unless defined $uri;
     return grep { $self->[NSMAP]->[-1]->[PREFIX_MAP]->{$_} eq $uri } keys %{$self->[NSMAP]->[-1]->[PREFIX_MAP]};
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # get_declared_prefixes() - get all prefixes declared in the last context
@@ -195,7 +189,6 @@ sub get_prefixes {
 sub get_declared_prefixes {
     return @{$_[0]->[NSMAP]->[-1]->[DECLARATIONS]};
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # get_uri() - get an URI given a prefix
@@ -210,7 +203,6 @@ sub get_uri {
     return $self->[NSMAP]->[-1]->[PREFIX_MAP]->{$prefix} if exists $self->[NSMAP]->[-1]->[PREFIX_MAP]->{$prefix};
     return undef;
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # process_name() - provide details on a name
@@ -227,7 +219,6 @@ sub process_name {
         eval { return( ($self->_get_ns_details($qname, $aflag))[0,2], $qname ); }
     }
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # process_element_name() - provide details on a element's name
@@ -243,7 +234,6 @@ sub process_element_name {
         eval { return $self->_get_ns_details($qname, 0); }
     }
 }
-#-------------------------------------------------------------------#
 
 
 #-------------------------------------------------------------------#
@@ -260,7 +250,6 @@ sub process_attribute_name {
         eval { return $self->_get_ns_details($qname, 1); }
     }
 }
-#-------------------------------------------------------------------#
 
 
 #-------------------------------------------------------------------#
@@ -300,7 +289,6 @@ sub _get_ns_details {
 
     return ($ns, $prefix, $lname);
 }
-#-------------------------------------------------------------------#
 
 #-------------------------------------------------------------------#
 # parse_jclark_notation() - parse the Clarkian notation
@@ -311,7 +299,6 @@ sub parse_jclark_notation {
     $jc =~ m/^\{(.*)\}([^}]+)$/;
     return $1, $2;
 }
-#-------------------------------------------------------------------#
 
 
 #-------------------------------------------------------------------#
@@ -330,13 +317,10 @@ sub parse_jclark_notation {
 *XML::NamespaceSupport::processAttributeName = \&process_attribute_name;
 *XML::NamespaceSupport::parseJClarkNotation  = \&parse_jclark_notation;
 *XML::NamespaceSupport::undeclarePrefix      = \&undeclare_prefix;
-#-------------------------------------------------------------------#
 
 
 1;
-#,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,#
-#`,`, Documentation `,`,`,`,`,`,`,`,`,`,`,`,`,`,`,`,`,`,`,`,`,`,`,`,#
-#```````````````````````````````````````````````````````````````````#
+__END__
 
 =pod
 
@@ -561,18 +545,6 @@ The namespace for xml prefixes, http://www.w3.org/XML/1998/namespace.
 
  - add more tests
  - optimise here and there
-
-=head1 AUTHOR
-
-Robin Berjon, robin@knowscape.com, with lots of it having been done
-by Duncan Cameron, and a number of suggestions from the perl-xml
-list.
-
-=head1 COPYRIGHT
-
-Copyright (c) 2001-2005 Robin Berjon. All rights reserved. This program is
-free software; you can redistribute it and/or modify it under the same terms
-as Perl itself.
 
 =head1 SEE ALSO
 

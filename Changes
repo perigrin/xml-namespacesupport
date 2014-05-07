@@ -1,5 +1,8 @@
 
-Revision history for XML::NamespaceSupport:
+Revision history for {{$dist->name}}
+
+{{$NEXT}}
+    - Dzilify and re-release
 
 1.10  2009-06-12
     - Release real version since CPAN testers gave us a pass (perigrin)
