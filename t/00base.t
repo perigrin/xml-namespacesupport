@@ -1,5 +1,5 @@
 use strict;
-use Test::More tests => 59;
+use Test::More tests => 63;
 use XML::NamespaceSupport;
 use constant FATALS       => 0;    # root object
 use constant NSMAP        => 1;
@@ -171,4 +171,22 @@ ok( defined $ns->get_prefix('http://berjon.com') );
     is( $ns->undeclare_prefix(), undef, "undefined prefix" );
     is( $ns->undeclare_prefix(''), undef, "empty prefix" );
     is( $ns->undeclare_prefix('bob'), undef, "nonexistent prefix");
+}
+
+# check parse_jclark_notation with object
+{
+    my $ns = XML::NamespaceSupport->new(
+        { xmlns => 1, fatal_errors => 0, auto_prefix => 1 } );
+    my ($namespace, $local_name) =
+        $ns->parse_jclark_notation('{http://foo}bar');
+    is( $namespace, 'http://foo', "jclark namespace name" );
+    is( $local_name, 'bar', "jclark local name" );
+}
+
+# check parse_jclark_notation without object
+{
+    my ($namespace, $local_name) =
+        XML::NamespaceSupport->parse_jclark_notation('{http://www.cars.com/xml}part');
+    is( $namespace, 'http://www.cars.com/xml', "jclark namespace name" );
+    is( $local_name, 'part', "jclark local name" );
 }
