@@ -144,7 +144,7 @@ sub declare_prefixes {
 sub undeclare_prefix {
     my $self   = shift;
     my $prefix = shift;
-    return unless not defined $prefix or $prefix eq '';
+    return if not defined $prefix or $prefix eq '';
     return unless exists $self->[NSMAP]->[-1]->[PREFIX_MAP]->{$prefix};
 
     my ( $tfix ) = grep { $_ eq $prefix } @{$self->[NSMAP]->[-1]->[DECLARATIONS]};

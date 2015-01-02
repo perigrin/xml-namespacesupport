@@ -1,5 +1,5 @@
 use strict;
-use Test::More tests => 48;
+use Test::More tests => 63;
 use XML::NamespaceSupport;
 use constant FATALS       => 0;    # root object
 use constant NSMAP        => 1;
@@ -127,3 +127,66 @@ $ns->push_context;
 $ns->declare_prefix( undef, 'http://berjon.com' );
 ok( defined $ns->get_prefix('http://berjon.com') );
 
+# check declare_prefixes()
+{
+    my $ns = XML::NamespaceSupport->new(
+        { xmlns => 1, fatal_errors => 0, auto_prefix => 1 } );
+
+    $ns->push_context;
+    $ns->declare_prefixes(
+        'perl' => 'http://www.perl.com',
+        'java' => 'http://www.java.com'
+    );
+    is( $ns->get_prefix('http://www.perl.com'), 'perl', "prefix from uri" );
+    is( $ns->get_prefix('http://www.java.com'), 'java', "prefix from uri" );
+    is( $ns->get_uri('perl'), 'http://www.perl.com', "uri from prefix" );
+    is( $ns->get_uri('java'), 'http://www.java.com', "uri from prefix" );
+}
+
+# check undeclare_prefix() with known prefix
+{
+    my $ns = XML::NamespaceSupport->new(
+        { xmlns => 1, fatal_errors => 0, auto_prefix => 1 } );
+
+    $ns->push_context;
+    $ns->declare_prefix('perl', 'http://www.perl.com');
+    $ns->declare_prefix('java', 'http://www.java.com');
+    is( $ns->get_uri('java'), 'http://www.java.com',
+            "prefix defined successfully before undeclare" );
+    $ns->undeclare_prefix('java');
+    isnt( $ns->get_uri('java'), 'http://www.java.com', "prefix undeclared" );
+    is( $ns->get_uri('java'), undef, "prefix undeclared" );
+    is( $ns->get_uri('perl'), 'http://www.perl.com',
+        "untouched prefix still exists");
+}
+
+# check undeclare_prefix() with undefined, empty and nonexistent prefixes
+{
+    my $ns = XML::NamespaceSupport->new(
+        { xmlns => 1, fatal_errors => 0, auto_prefix => 1 } );
+
+    $ns->push_context;
+    $ns->declare_prefix('perl', 'http://www.perl.com');
+    $ns->declare_prefix('java', 'http://www.java.com');
+    is( $ns->undeclare_prefix(), undef, "undefined prefix" );
+    is( $ns->undeclare_prefix(''), undef, "empty prefix" );
+    is( $ns->undeclare_prefix('bob'), undef, "nonexistent prefix");
+}
+
+# check parse_jclark_notation with object
+{
+    my $ns = XML::NamespaceSupport->new(
+        { xmlns => 1, fatal_errors => 0, auto_prefix => 1 } );
+    my ($namespace, $local_name) =
+        $ns->parse_jclark_notation('{http://foo}bar');
+    is( $namespace, 'http://foo', "jclark namespace name" );
+    is( $local_name, 'bar', "jclark local name" );
+}
+
+# check parse_jclark_notation without object
+{
+    my ($namespace, $local_name) =
+        XML::NamespaceSupport->parse_jclark_notation('{http://www.cars.com/xml}part');
+    is( $namespace, 'http://www.cars.com/xml', "jclark namespace name" );
+    is( $local_name, 'part', "jclark local name" );
+}
