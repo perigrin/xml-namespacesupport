@@ -1,5 +1,5 @@
 use strict;
-use Test::More tests => 48;
+use Test::More tests => 52;
 use XML::NamespaceSupport;
 use constant FATALS       => 0;    # root object
 use constant NSMAP        => 1;
@@ -127,3 +127,18 @@ $ns->push_context;
 $ns->declare_prefix( undef, 'http://berjon.com' );
 ok( defined $ns->get_prefix('http://berjon.com') );
 
+# check declare_prefixes()
+{
+    my $ns = XML::NamespaceSupport->new(
+        { xmlns => 1, fatal_errors => 0, auto_prefix => 1 } );
+
+    $ns->push_context;
+    $ns->declare_prefixes(
+        'perl' => 'http://www.perl.com',
+        'java' => 'http://www.java.com'
+    );
+    is( $ns->get_prefix('http://www.perl.com'), 'perl', "prefix from uri" );
+    is( $ns->get_prefix('http://www.java.com'), 'java', "prefix from uri" );
+    is( $ns->get_uri('perl'), 'http://www.perl.com', "uri from prefix" );
+    is( $ns->get_uri('java'), 'http://www.java.com', "uri from prefix" );
+}
