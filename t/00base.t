@@ -1,5 +1,5 @@
 use strict;
-
+use Test::More;
 use XML::NamespaceSupport;
 use constant FATALS       => 0;    # root object
 use constant NSMAP        => 1;
@@ -141,6 +141,36 @@ ok( defined $ns->get_prefix('http://berjon.com') );
     is( $ns->get_prefix('http://www.java.com'), 'java', "prefix from uri" );
     is( $ns->get_uri('perl'), 'http://www.perl.com', "uri from prefix" );
     is( $ns->get_uri('java'), 'http://www.java.com', "uri from prefix" );
+}
+
+# check undeclare_prefix() with known prefix
+{
+    my $ns = XML::NamespaceSupport->new(
+        { xmlns => 1, fatal_errors => 0, auto_prefix => 1 } );
+
+    $ns->push_context;
+    $ns->declare_prefix('perl', 'http://www.perl.com');
+    $ns->declare_prefix('java', 'http://www.java.com');
+    is( $ns->get_uri('java'), 'http://www.java.com',
+            "prefix defined successfully before undeclare" );
+    $ns->undeclare_prefix('java');
+    isnt( $ns->get_uri('java'), 'http://www.java.com', "prefix undeclared" );
+    is( $ns->get_uri('java'), undef, "prefix undeclared" );
+    is( $ns->get_uri('perl'), 'http://www.perl.com',
+        "untouched prefix still exists");
+}
+
+# check undeclare_prefix() with undefined, empty and nonexistent prefixes
+{
+    my $ns = XML::NamespaceSupport->new(
+        { xmlns => 1, fatal_errors => 0, auto_prefix => 1 } );
+
+    $ns->push_context;
+    $ns->declare_prefix('perl', 'http://www.perl.com');
+    $ns->declare_prefix('java', 'http://www.java.com');
+    is( $ns->undeclare_prefix(), undef, "undefined prefix" );
+    is( $ns->undeclare_prefix(''), undef, "empty prefix" );
+    is( $ns->undeclare_prefix('bob'), undef, "nonexistent prefix");
 }
 
 done_testing();
