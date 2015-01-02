@@ -9,6 +9,6 @@ The model for this module is SAX2's NamespaceSupport class, readable at
 http://www.saxproject.org/namespaces.html
 
 It adds a few perlisations where we thought it appropriate, and supports the
-Namespaces in XML 1.1 specification.
+Namespaces in the XML 1.1 specification.
 
 -- Robin Berjon <rberjon@cpan.org>
