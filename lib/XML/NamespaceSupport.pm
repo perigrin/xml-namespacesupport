@@ -5,11 +5,6 @@ use strict;
 
 # ABSTRACT: A simple generic namespace processor
 
-###
-# XML::NamespaceSupport - a simple generic namespace processor
-# Robin Berjon <robin@knowscape.com>
-###
-
 use constant FATALS         => 0; # root object
 use constant NSMAP          => 1;
 use constant UNKNOWN_PREF   => 2;
