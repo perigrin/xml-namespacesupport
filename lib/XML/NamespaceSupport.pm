@@ -191,7 +191,7 @@ sub get_declared_prefixes {
 }
 
 #-------------------------------------------------------------------#
-# get_uri() - get an URI given a prefix
+# get_uri() - get a URI given a prefix
 #-------------------------------------------------------------------#
 sub get_uri {
     my $self    = shift;
@@ -439,13 +439,13 @@ Declares a mapping of several prefixes to URIs, at the current level.
 
 =item * $nsup->get_prefix($uri)
 
-Returns a prefix given an URI. Note that as several prefixes may be
+Returns a prefix given a URI. Note that as several prefixes may be
 mapped to the same URI, it returns an arbitrary one. It'll return
 undef on failure.
 
 =item * $nsup->get_prefixes($uri)
 
-Returns an array of prefixes given an URI. It'll return all the
+Returns an array of prefixes given a URI. It'll return all the
 prefixes if the uri is undef.
 
 =item * $nsup->get_declared_prefixes
