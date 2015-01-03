@@ -429,7 +429,7 @@ selected for you. If it is off you will get a warning.
 
 This is useful when you deal with code that hasn't kept prefixes around
 and need to reserialize the nodes. It also means that if you want to
-set the default namespace (ie with an empty prefix) you must use the
+set the default namespace (i.e. with an empty prefix) you must use the
 empty string instead of undef. This behaviour is consistent with the
 SAX 2.0 specification.
 
