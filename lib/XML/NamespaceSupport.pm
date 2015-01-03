@@ -476,8 +476,8 @@ C<fatal_errors>.
 Removes a namespace prefix from the current context. This function may
 be used in SAX's end_prefix_mapping when there is fear that a namespace
 declaration might be available outside their scope (which shouldn't
-normally happen, but you never know ;). This may be needed in order to
-properly support Namespace 1.1.
+normally happen, but you never know ;) ). This may be needed in order
+to properly support Namespace 1.1.
 
 =item * $nsup->process_element_name($qname)
 
