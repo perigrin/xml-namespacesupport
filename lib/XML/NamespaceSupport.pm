@@ -187,6 +187,10 @@ sub get_prefixes {
 # get_declared_prefixes() - get all prefixes declared in the last context
 #-------------------------------------------------------------------#
 sub get_declared_prefixes {
+    my $declarations = $_[0]->[NSMAP]->[-1]->[DECLARATIONS];
+    die "At least one context must be pushed onto stack with push_context()\n",
+	"before calling get_declared_prefixes()"
+	if not defined $declarations;
     return @{$_[0]->[NSMAP]->[-1]->[DECLARATIONS]};
 }
 
