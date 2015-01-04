@@ -458,6 +458,9 @@ Returns an array of all the prefixes that have been declared within
 this context, ie those that were declared on the last element, not
 those that were declared above and are simply in scope.
 
+Note that at least one context must be added to the stack via
+C<push_context> before this method can be called.
+
 =item * $nsup->get_uri($prefix)
 
 Returns a URI for a given prefix. Returns undef on failure.
