@@ -106,7 +106,7 @@ sub declare_prefix {
         $self->[NSMAP]->[-1]->[DEFAULT] = $value;
     }
     else {
-        die "Cannot undeclare prefix $prefix" if $value eq '' and not $self->[XMLNS_11];
+        die "Cannot declare prefix $prefix" if $value eq '' and not $self->[XMLNS_11];
         if (not defined $prefix and $self->[AUTO_PREFIX]) {
             while (1) {
                 $prefix = $self->[UNKNOWN_PREF]++;
