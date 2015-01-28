@@ -5,11 +5,6 @@ use strict;
 
 # ABSTRACT: A simple generic namespace processor
 
-###
-# XML::NamespaceSupport - a simple generic namespace processor
-# Robin Berjon <robin@knowscape.com>
-###
-
 use constant FATALS         => 0; # root object
 use constant NSMAP          => 1;
 use constant UNKNOWN_PREF   => 2;
@@ -195,7 +190,7 @@ sub get_declared_prefixes {
 }
 
 #-------------------------------------------------------------------#
-# get_uri() - get an URI given a prefix
+# get_uri() - get a URI given a prefix
 #-------------------------------------------------------------------#
 sub get_uri {
     my $self    = shift;
@@ -381,7 +376,7 @@ from within any application that may need them. It also helps maintain
 a prefix to namespace URI map, and provides a number of basic checks.
 
 The model for this module is SAX2's NamespaceSupport class, readable at
-http://www.megginson.com/SAX/Java/javadoc/org/xml/sax/helpers/NamespaceSupport.html.
+http://www.saxproject.org/namespaces.html
 It adds a few perlisations where we thought it appropriate.
 
 =head1 METHODS
@@ -433,7 +428,7 @@ selected for you. If it is off you will get a warning.
 
 This is useful when you deal with code that hasn't kept prefixes around
 and need to reserialize the nodes. It also means that if you want to
-set the default namespace (ie with an empty prefix) you must use the
+set the default namespace (i.e. with an empty prefix) you must use the
 empty string instead of undef. This behaviour is consistent with the
 SAX 2.0 specification.
 
@@ -443,13 +438,13 @@ Declares a mapping of several prefixes to URIs, at the current level.
 
 =item * $nsup->get_prefix($uri)
 
-Returns a prefix given an URI. Note that as several prefixes may be
+Returns a prefix given a URI. Note that as several prefixes may be
 mapped to the same URI, it returns an arbitrary one. It'll return
 undef on failure.
 
 =item * $nsup->get_prefixes($uri)
 
-Returns an array of prefixes given an URI. It'll return all the
+Returns an array of prefixes given a URI. It'll return all the
 prefixes if the uri is undef.
 
 =item * $nsup->get_declared_prefixes
@@ -483,8 +478,8 @@ C<fatal_errors>.
 Removes a namespace prefix from the current context. This function may
 be used in SAX's end_prefix_mapping when there is fear that a namespace
 declaration might be available outside their scope (which shouldn't
-normally happen, but you never know ;). This may be needed in order to
-properly support Namespace 1.1.
+normally happen, but you never know ;) ). This may be needed in order
+to properly support Namespace 1.1.
 
 =item * $nsup->process_element_name($qname)
 
