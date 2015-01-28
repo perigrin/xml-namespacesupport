@@ -187,6 +187,10 @@ sub get_prefixes {
 # get_declared_prefixes() - get all prefixes declared in the last context
 #-------------------------------------------------------------------#
 sub get_declared_prefixes {
+    my $declarations = $_[0]->[NSMAP]->[-1]->[DECLARATIONS];
+    die "At least one context must be pushed onto stack with push_context()\n",
+	"before calling get_declared_prefixes()"
+	if not defined $declarations;
     return @{$_[0]->[NSMAP]->[-1]->[DECLARATIONS]};
 }
 
@@ -453,6 +457,9 @@ prefixes if the uri is undef.
 Returns an array of all the prefixes that have been declared within
 this context, ie those that were declared on the last element, not
 those that were declared above and are simply in scope.
+
+Note that at least one context must be added to the stack via
+C<push_context> before this method can be called.
 
 =item * $nsup->get_uri($prefix)
 

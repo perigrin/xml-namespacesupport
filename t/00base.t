@@ -1,5 +1,5 @@
 use strict;
-use Test::More tests => 48;
+use Test::More tests => 49;
 use XML::NamespaceSupport;
 use constant FATALS       => 0;    # root object
 use constant NSMAP        => 1;
@@ -127,3 +127,10 @@ $ns->push_context;
 $ns->declare_prefix( undef, 'http://berjon.com' );
 ok( defined $ns->get_prefix('http://berjon.com') );
 
+# get_declared_prefixes without context
+{
+    my $ns = XML::NamespaceSupport->new;
+    eval { $ns->get_declared_prefixes };
+    ok( $@ =~ /At least one context/,
+        "get_declared_prefixes raises error without context on stack" );
+}
